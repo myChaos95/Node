@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	HomePage
+	<p class="greet">hello</p>
+	<div class="good">yes</div>
+	<h3>ok</h3>
+	<p class="answer">fine</p>
+	<div>no</div>
+</body>
+<script>
+
+	var domStorage = function() {
+		trash = [];
+		return {
+			getTrash: function(){
+				return trash;
+			},
+			delDom: function(sel){
+				var objs = document.querySelectorAll(sel);
+				objs.forEach( obj => {
+					let p = obj.parentNode;
+					trash.push({parent: p, dom: obj, next: obj.nextElementSibling});
+					p.removeChild(obj);
+				})
+			},
+			recovery: function(){
+				trash.map( obj => {
+					try{
+						if(obj.next == null || obj.next.nodeType != 1){
+							obj.parent.appendChild(obj.dom);
+						}else {
+							obj.parent.insertBefore(obj.dom, obj.next);
+						}
+					}catch(err){
+						obj.parent.appendChild(obj.dom);
+					}
+					trash = [];
+				})
+			}
+		}
+	}();
+</script>
+</html>

@@ -3,46 +3,45 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Document</title>
+	<link rel="stylesheet" href="../public/stylesheets/normalize.css">
+	<link href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+	<style>
+		form{ width: 500px; display: block; margin: 30px auto; }
+		.form-horizontal .form-group{
+			margin-left: 0; margin-right: 0;
+		}
+	</style>
 </head>
 <body>
-	HomePage
-	<p class="greet">hello</p>
-	<div class="good">yes</div>
-	<h3>ok</h3>
-	<p class="answer">fine</p>
-	<div>no</div>
-</body>
-<script>
+	<form role='form' class="form-horizontal">	
+		<div class="form-group">
+		    <label for="name"> 名字</label>
+	         <input type="text" class="form-control" id="name" placeholder="请输入名字" name='name'>
+       	</div>
+       	<div class="form-group">
+		    <label for="age"> 年龄</label>
+	         <input type="text" class="form-control" id="age" placeholder="请输入年龄" name='age'>
+       	</div>
+       	<button type="button" class="btn-primary btn btn-block">提交</button>
+	</form>
 
-	var domStorage = function() {
-		trash = [];
-		return {
-			getTrash: function(){
-				return trash;
-			},
-			delDom: function(sel){
-				var objs = document.querySelectorAll(sel);
-				objs.forEach( obj => {
-					let p = obj.parentNode;
-					trash.push({parent: p, dom: obj, next: obj.nextElementSibling});
-					p.removeChild(obj);
-				})
-			},
-			recovery: function(){
-				trash.map( obj => {
-					try{
-						if(obj.next == null || obj.next.nodeType != 1){
-							obj.parent.appendChild(obj.dom);
-						}else {
-							obj.parent.insertBefore(obj.dom, obj.next);
-						}
-					}catch(err){
-						obj.parent.appendChild(obj.dom);
-					}
-					trash = [];
-				})
-			}
-		}
-	}();
+</body>
+<script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+<script>
+	$(function  () {
+		$('button').on('click', function() {
+			$.ajax({
+				url: 'http://localhost:3000/get',
+				data: $('form').serialize(),
+				type: 'get',
+				success: data => {
+					console.log(data)
+				},
+				error: err => {
+					console.log(err);
+				}
+			})
+		})
+	})
 </script>
 </html>

@@ -1,17 +1,23 @@
 // 'use strict';
 var express = require('express');
 var app = express();
-var router = require('./routes/index.js');
+
+var get = require('./routes/get.js');
+var post = require('./routes/post.js');
+
+var bodyParser = require('body-parser')
 
 app.use('/public', express.static(__dirname + '/public'));
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.set('view','./views');
 app.set('view engine', 'jade')
 
-app.get('/',(req ,res) => {
-	req.sendFile('./views/index.html');
+app.get('/',  (req, res) => {
+	res.sendFile( __dirname + '/views/index.html');
 })
 
-app.use('no',routes);
+app.use('/get',get);
+app.use('/post',post);
 
 module.exports = app;

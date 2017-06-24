@@ -30,17 +30,26 @@
 <script>
 	$(function  () {
 		$('button').on('click', function() {
-			$.ajax({
-				url: 'http://localhost:3000/get',
-				data: $('form').serialize(),
-				type: 'get',
-				success: data => {
-					console.log(data)
-				},
-				error: err => {
-					console.log(err);
-				}
-			})
+			// $.ajax({
+			// 	url: 'http://localhost:3000/yes',
+			// 	data: $('form').serialize(),
+			// 	type: 'post',
+			// 	// datatype: 'jsonp',
+			// 	// jsonp: 'jsoncallback',
+			// 	success: data => {
+			// 		console.log(data)
+			// 	},
+			// 	error: err => {
+			// 		console.log(err);
+			// 	}
+			// })
+			$.getJSON('http://localhost:3000/yes', JSON.stringify($('form').serialize()), function(json, textStatus) {
+				console.log(json)
+				$.each(json, (index,ele) => {
+					console.log(index);
+					console.log(ele);
+				})
+			});
 		})
 	})
 </script>
